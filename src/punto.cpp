@@ -4,6 +4,7 @@
 
 #include "punto.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -13,7 +14,7 @@ Punto::Punto(int la_x, int la_y) {
 
 }
 
-int Punto::getCuadrante() {
+int Punto::getCuadrante() const {
     int cuadrante = 0;
 
     if (x > 0 && y >= 0){
@@ -30,31 +31,31 @@ int Punto::getCuadrante() {
 
 }
 
-bool Punto::esMenor(Punto otro) {
+bool Punto::estaEnEje () const{
+    return (this->x == 0 || this->y == 0);
+}
+
+bool Punto::operator< (const Punto & otro) const{
     bool es_menor = false;
 
     int cuadrante = getCuadrante();
 
     if (cuadrante != otro.getCuadrante()){  // Distinto Cuadrante
-        if (this->getCuadrante() < otro.getCuadrante()){
+        if (cuadrante < otro.getCuadrante()){
             es_menor = true;
         }
     } else {    // Mismo cuadrante
-        switch (cuadrante) {
-            case (1):
-
-                break;
-            case (2):
-                break;
-            case (3):
-                break;
-            case (4):
-                break;
-            default:
-                es_menor = true;
+        // TODO SI UN PUNTO ESTA EN ALGUN EJE LA TANGENTE ES 0 Y PUEDE DAR ERRORES
+        if (atan(this->y/this->x) <= atan(otro.y/otro.x)){
+            es_menor = true;
         }
 
     }
+    return (es_menor);
+}
 
+ostream & operator<< (ostream & os, const Punto & pt){
+    os << "(" << pt.x << "," << pt.y << ")";
 
+    return (os);
 }
