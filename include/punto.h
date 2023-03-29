@@ -17,5 +17,4 @@ public:
 
 };
 
-#include "punto.cpp"
 #endif //PUNTO_H
