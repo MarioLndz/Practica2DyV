@@ -3,4 +3,4 @@ project(Practica2DyV)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Practica2DyV src/main.cpp)
+add_executable(Practica2DyV src/main.cpp include/punto.h src/punto.cpp)

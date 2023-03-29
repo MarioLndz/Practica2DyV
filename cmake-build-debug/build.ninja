@@ -55,6 +55,12 @@ build CMakeFiles/Practica2DyV.dir/src/main.cpp.o: CXX_COMPILER__Practica2DyV_Deb
   OBJECT_DIR = CMakeFiles/Practica2DyV.dir
   OBJECT_FILE_DIR = CMakeFiles/Practica2DyV.dir/src
 
+build CMakeFiles/Practica2DyV.dir/src/punto.cpp.o: CXX_COMPILER__Practica2DyV_Debug /home/mario/Escritorio/Algoritmica/Practica2DyV/src/punto.cpp || cmake_object_order_depends_target_Practica2DyV
+  DEP_FILE = CMakeFiles/Practica2DyV.dir/src/punto.cpp.o.d
+  FLAGS = -g -std=gnu++14
+  OBJECT_DIR = CMakeFiles/Practica2DyV.dir
+  OBJECT_FILE_DIR = CMakeFiles/Practica2DyV.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Practica2DyV
@@ -63,7 +69,7 @@ build CMakeFiles/Practica2DyV.dir/src/main.cpp.o: CXX_COMPILER__Practica2DyV_Deb
 #############################################
 # Link the executable Practica2DyV
 
-build Practica2DyV: CXX_EXECUTABLE_LINKER__Practica2DyV_Debug CMakeFiles/Practica2DyV.dir/src/main.cpp.o
+build Practica2DyV: CXX_EXECUTABLE_LINKER__Practica2DyV_Debug CMakeFiles/Practica2DyV.dir/src/main.cpp.o CMakeFiles/Practica2DyV.dir/src/punto.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/Practica2DyV.dir
   POST_BUILD = :
