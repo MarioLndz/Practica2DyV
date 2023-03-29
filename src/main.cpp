@@ -1,8 +1,13 @@
 #include <iostream>
+#include "punto.h"
 
 using namespace std;
 
 int main() {
-    cout << "Hello, World!" << std::endl;
+
+    Punto p (0, 0);
+
+    cout << p.getCuadrante() << endl;
+
     return 0;
 }

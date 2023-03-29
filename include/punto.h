@@ -13,6 +13,9 @@ private:
 public:
     Punto(int la_x, int la_y);
 
+    int getCuadrante ();
+
+    bool esMenor (Punto otro);
 
 
 };
