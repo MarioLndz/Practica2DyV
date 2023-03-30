@@ -42,7 +42,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
+					"fragment" : "-g"
 				},
 				{
 					"fragment" : "-std=gnu++14"
@@ -52,7 +52,7 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/home/mp/Practica2DyV/include"
+					"path" : "/home/mario/Escritorio/Algoritmica/Practica2DyV/include"
 				}
 			],
 			"language" : "CXX",

@@ -86,7 +86,7 @@ vector<Punto> EnvolventeConexa(vector<Punto> p){
 int main() {
     srand(time(NULL));
 
-    const int TOPE = 0;
+    const int TOPE = 5;
     const int LIMITE_SUP = 5;
 
     vector<Punto> puntos;
@@ -98,12 +98,10 @@ int main() {
         int x = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
         int y = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
 
-        p.insert(Punto(x,y,offset{1,1}));
+        p.insert(Punto(x,y,offset{3,3}));
         puntos.push_back(Punto(x,y, offset{1,1}));
 
     }
-
-    p.insert(Punto(-1,1,offset{2,2}));
 
     cout << "SIN ORDENAR" << endl;
     for (int i = 0; i < TOPE; ++i){
@@ -112,7 +110,7 @@ int main() {
 
     cout << endl << "ORDENADO" << endl;
     for (set<Punto>::iterator it = p.begin(); it != p.end(); ++it ){
-        cout << *it << it->getCuadrante() << endl;
+        cout << *it << endl;
     }
 
     return 0;

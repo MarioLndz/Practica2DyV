@@ -54,12 +54,19 @@ bool Punto::operator< (const Punto & otro) const{
             es_menor = true;
         }
     } else {    // Mismo cuadrante
+
+
         if (cuadrante == 1 || cuadrante == 3){
-            if (atan((this->y/(this->x*1.0))) <= atan(otro.y/(otro.x*1.0))){
+            float esta_tan = abs((origen.y - this->y)/(abs(origen.x - this->x)*1.0));
+            float otra_tan = abs((origen.y - otro.y)/(abs(origen.x - otro.x)*1.0));
+
+            if (esta_tan >= otra_tan){
                 es_menor = true;
             }
         } else {
-            if ((this->x/(this->y*1.0)) >= (otro.x/((otro.y)*1.0))){
+            float esta_cotan = abs(origen.x - this->x)/(abs(origen.y - this->y)*1.0);
+            float otra_cotan = abs(origen.x - otro.x)/(abs(origen.y - otro.y)*1.0);
+            if (esta_cotan >= otra_cotan){
                 es_menor = true;
             }
         }
