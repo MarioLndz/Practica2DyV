@@ -6,9 +6,42 @@
 #include <random>
 #include <chrono>
 #include <vector>
+#include "punto.h"
 
 using namespace std;
 
+Punto MenorOrdenado(vector<Punto> p){
+
+    const int MAX = 100000;
+
+    Punto salida(MAX,MAX);
+
+    int maximo = MAX;
+
+    for(int i=0;i<p.size();i++){
+
+        if(p.at(i).getY()<=maximo){
+
+            maximo=p.at(i).getY();
+
+            if(salida.getY()==p.at(i).getY()){
+
+                if(salida.getY()==p.at(i).getY()){
+
+                    salida=p.at(i);
+                }
+            }
+            else{
+
+                salida=p.at(i);
+            }
+
+
+        }
+    }
+
+}
+/*
 struct Punto {int x; int y;};
 struct Recta {Punto p1; Punto p2;};
 

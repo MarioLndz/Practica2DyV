@@ -5,6 +5,7 @@
 #include "punto.h"
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -35,6 +36,16 @@ bool Punto::estaEnEje () const{
     return (this->x == 0 || this->y == 0);
 }
 
+int Punto::getX() const{
+
+    return (this->x);
+}
+
+int Punto::getY() const{
+
+    return (this->y);
+}
+
 bool Punto::operator< (const Punto & otro) const{
     bool es_menor = false;
 
@@ -52,6 +63,14 @@ bool Punto::operator< (const Punto & otro) const{
 
     }
     return (es_menor);
+}
+
+Punto& Punto::operator=(const Punto &p){
+
+    this->x=p.getX();
+    this->y=p.getY();
+
+    return *this;
 }
 
 ostream & operator<< (ostream & os, const Punto & pt){

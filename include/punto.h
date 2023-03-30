@@ -23,7 +23,13 @@ public:
 
     bool estaEnEje () const;
 
+    int getX() const;
+
+    int getY() const;
+
     friend ostream & operator<< (ostream & os, const Punto & pt);
+
+    Punto& operator=(const Punto &p);
 
 
 };
