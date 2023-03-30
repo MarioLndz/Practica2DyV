@@ -57,14 +57,38 @@ bool Punto::operator< (const Punto & otro) const{
         }
     } else {    // Mismo cuadrante
         // TODO SI UN PUNTO ESTA EN ALGUN EJE LA TANGENTE ES 0 Y PUEDE DAR ERRORES
-        if (atan(this->y/this->x) <= atan(otro.y/otro.x)){
-            es_menor = true;
+        if (cuadrante == 1 || cuadrante == 3){
+            if (atan((this->y/(this->x*1.0))) <= atan(otro.y/(otro.x*1.0))){
+                es_menor = true;
+            }
+        } else {
+            if ((this->x/(this->y*1.0)) >= (otro.x/((otro.y)*1.0))){
+                es_menor = true;
+            }
         }
+
+
 
     }
     return (es_menor);
 }
+/*
+bool Punto::esMenor (const Punto & otro) const{
+    bool es_menor = false;
 
+    int cuadrante = getCuadrante();
+
+    if (cuadrante != otro.getCuadrante()){  // Distinto Cuadrante
+        if (cuadrante < otro.getCuadrante()){
+            es_menor = true;
+        }
+    } else {    // Mismo cuadrante
+        if (cuadrante == 1 || cuadrante == )
+
+    }
+    return (es_menor);
+}
+*/
 Punto& Punto::operator=(const Punto &p){
 
     this->x=p.getX();

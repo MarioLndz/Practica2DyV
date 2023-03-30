@@ -7,10 +7,38 @@
 
 using namespace std;
 
+Punto MenorOrdenado(vector<Punto> p){
+    const int MAX = 100000;
+    Punto salida(MAX,MAX);
+    int maximo = MAX;
+
+    for(int i=0;i<p.size();i++){
+
+        if(p.at(i).getY()<=maximo){
+
+            maximo=p.at(i).getY();
+
+            if(salida.getY()==p.at(i).getY()){
+
+                if(salida.getY()==p.at(i).getY()){
+
+                    salida=p.at(i);
+                }
+            }
+            else{
+
+                salida=p.at(i);
+            }
+
+
+        }
+    }
+}
+
 int main() {
     srand(time(NULL));
 
-    const int TOPE = 3;
+    const int TOPE = 10;
     const int LIMITE_SUP = 5;
 
     vector<Punto> puntos;
@@ -26,6 +54,7 @@ int main() {
         puntos.push_back(Punto(x,y));
 
     }
+
     cout << "SIN ORDENAR" << endl;
     for (int i = 0; i < TOPE; ++i){
         cout << puntos.at(i) << endl;
