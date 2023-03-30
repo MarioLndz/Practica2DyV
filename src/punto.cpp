@@ -60,13 +60,15 @@ bool Punto::operator< (const Punto & otro) const{
             float esta_tan = abs((origen.y - this->y)/(abs(origen.x - this->x)*1.0));
             float otra_tan = abs((origen.y - otro.y)/(abs(origen.x - otro.x)*1.0));
 
-            if (esta_tan >= otra_tan){
+            if (esta_tan <= otra_tan){
                 es_menor = true;
             }
         } else {
             float esta_cotan = abs(origen.x - this->x)/(abs(origen.y - this->y)*1.0);
             float otra_cotan = abs(origen.x - otro.x)/(abs(origen.y - otro.y)*1.0);
-            if (esta_cotan >= otra_cotan){
+            cout << this << esta_cotan << "\t" << otro << otra_cotan << endl;
+
+            if (esta_cotan <= otra_cotan){
                 es_menor = true;
             }
         }

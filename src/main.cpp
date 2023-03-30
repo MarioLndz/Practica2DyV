@@ -86,7 +86,7 @@ vector<Punto> EnvolventeConexa(vector<Punto> p){
 int main() {
     srand(time(NULL));
 
-    const int TOPE = 5;
+    const int TOPE = 10;
     const int LIMITE_SUP = 5;
 
     vector<Punto> puntos;
@@ -95,11 +95,11 @@ int main() {
     // Generamos tantos puntos como indice TOPE
     // Las coordenadas estarán entre ] -LIMITE_SUP, LIMITE_SUP [
     for (int i = 0; i < TOPE; ++i){
-        int x = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
-        int y = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
+        int x = 0 + rand()%(2*LIMITE_SUP);
+        int y = 0 + rand()%(2*LIMITE_SUP);
 
         p.insert(Punto(x,y,offset{3,3}));
-        puntos.push_back(Punto(x,y, offset{1,1}));
+        puntos.push_back(Punto(x,y, offset{3,3}));
 
     }
 
@@ -110,7 +110,7 @@ int main() {
 
     cout << endl << "ORDENADO" << endl;
     for (set<Punto>::iterator it = p.begin(); it != p.end(); ++it ){
-        cout << *it << endl;
+        cout << *it  << endl;
     }
 
     return 0;
