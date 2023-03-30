@@ -32,7 +32,7 @@ int Punto::getCuadrante() const {
 
 }
 
-bool Punto::estaEnEje () const{
+bool Punto::estaEnEje() const{
     return (this->x == 0 || this->y == 0);
 }
 
@@ -72,6 +72,7 @@ bool Punto::operator< (const Punto & otro) const{
     }
     return (es_menor);
 }
+
 /*
 bool Punto::esMenor (const Punto & otro) const{
     bool es_menor = false;

@@ -37,6 +37,51 @@ Punto MenorOrdenado(vector<Punto> p){
     return salida;
 }
 
+// devuelve true en caso de ser un giro a la dcha y falso en caso de que sea a la izq
+
+bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
+
+    bool salida = false;             // uso la fórmula
+
+    if((((p2.getX()-p1.getX())*(p3.getY()-p1.getY()))-((p2.getY()-p1.getY())*(p3.getX()-p1.getX())))<0){
+
+        salida = true;
+    }
+
+    return salida;
+}
+
+// nos quedamos con los puntos que pertencen a la envolvente conexa
+// recibe el vector ya ordenado
+
+vector<Punto> EnvolventeConexa(vector<Punto> p){
+
+    Punto p1 = p.at(0);
+    Punto p2 = p.at(1);
+
+    vector<Punto> salida;
+
+    salida.push_back(p1);
+    salida.push_back(p2);
+
+    // cogemos los dos primeros puntos y partir de ahí vamos comprobando si el segmento que
+    // forman p1 y p2 y el que forman p2 y p3 representan un dextrogiro
+
+    for(int i=2;i<p.size();i++){
+
+        Punto p3 = p.at(i);
+
+        if(!GiroALaDerecha(p1,p2,p3)){             // en caso de que el giro sea a la izq
+                                                   // entonces metemos el punto en salida y
+            salida.push_back(p3);                  // cambiamos los puntos
+            p1=p2;
+            p2=p3;
+        }
+    }
+
+    return salida;
+}
+
 
 
 int main() {

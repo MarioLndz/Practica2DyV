@@ -21,6 +21,8 @@ public:
 
     bool operator< (const Punto & otro) const;
 
+    bool estaEnEje() const;
+
     int getX() const;
 
     int getY() const;
