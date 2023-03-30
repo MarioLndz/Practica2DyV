@@ -20,7 +20,7 @@ Punto MenorOrdenado(vector<Punto> p){
 
             if(salida.getY()==p.at(i).getY()){
 
-                if(salida.getY()==p.at(i).getY()){
+                if(salida.getX()>p.at(i).getX()){
 
                     salida=p.at(i);
                 }
@@ -33,7 +33,11 @@ Punto MenorOrdenado(vector<Punto> p){
 
         }
     }
+
+    return salida;
 }
+
+
 
 int main() {
     srand(time(NULL));
