@@ -54,8 +54,6 @@ bool Punto::operator< (const Punto & otro) const{
             es_menor = true;
         }
     } else {    // Mismo cuadrante
-
-
         if (cuadrante == 1 || cuadrante == 3){
             float esta_tan = abs((origen.y - this->y)/(abs(origen.x - this->x)*1.0));
             float otra_tan = abs((origen.y - otro.y)/(abs(origen.x - otro.x)*1.0));
