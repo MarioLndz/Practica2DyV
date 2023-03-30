@@ -26,12 +26,10 @@ Punto MenorOrdenado(vector<Punto> p){
                     salida=p.at(i);
                 }
             }
-            else{
+            else {
 
-                salida=p.at(i);
+                salida = p.at(i);
             }
-
-
         }
     }
 
