@@ -95,8 +95,8 @@ int main() {
     // Generamos tantos puntos como indice TOPE
     // Las coordenadas estarán entre ] -LIMITE_SUP, LIMITE_SUP [
     for (int i = 0; i < TOPE; ++i){
-        int x = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
-        int y = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
+        int x = 0 + rand()%(2*LIMITE_SUP);
+        int y = 0 + rand()%(2*LIMITE_SUP);
 
         p.insert(Punto(x,y,offset{3,3}));
         puntos.push_back(Punto(x,y, offset{3,3}));
