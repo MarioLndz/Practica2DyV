@@ -9,13 +9,20 @@
 
 using namespace std;
 
+struct offset {
+    int x;
+    int y;
+};
+
 class Punto {
 private:
     int x;
     int y;
 
+    offset origen;
+
 public:
-    Punto(int la_x, int la_y);
+    Punto(int la_x, int la_y, offset el_origen=offset{0,0});
 
     int getCuadrante () const;
 
