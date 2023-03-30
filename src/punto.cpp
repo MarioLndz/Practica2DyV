@@ -10,8 +10,8 @@
 using namespace std;
 
 Punto::Punto(int la_x, int la_y, offset el_origen) {
-    this->x = la_x + el_origen.x;
-    this->y = la_y + el_origen.y;
+    this->x = la_x;
+    this->y = la_y;
 
     this->origen = el_origen;
 
@@ -20,13 +20,13 @@ Punto::Punto(int la_x, int la_y, offset el_origen) {
 int Punto::getCuadrante() const {
     int cuadrante = 0;
 
-    if (x > 0 && y >= 0){
+    if (x > origen.x && y >= origen.y){
         cuadrante = 1;
-    } else if (x <= 0 && y > 0){
+    } else if (x <= origen.x && y > origen.y){
         cuadrante = 2;
-    } else if (x < 0 && y <= 0) {
+    } else if (x < origen.x && y <= origen.y) {
         cuadrante = 3;
-    } else if (x >= 0 && y < 0){
+    } else if (x >= origen.x && y < origen.y){
         cuadrante = 4;
     }
 
@@ -36,12 +36,12 @@ int Punto::getCuadrante() const {
 
 int Punto::getX() const{
 
-    return (this->x - this->origen.x);
+    return (this->x);
 }
 
 int Punto::getY() const{
 
-    return (this->y - this->origen.y);
+    return (this->y);
 }
 
 bool Punto::operator< (const Punto & otro) const{
@@ -54,7 +54,6 @@ bool Punto::operator< (const Punto & otro) const{
             es_menor = true;
         }
     } else {    // Mismo cuadrante
-        // TODO SI UN PUNTO ESTA EN ALGUN EJE LA TANGENTE ES 0 Y PUEDE DAR ERRORES
         if (cuadrante == 1 || cuadrante == 3){
             if (atan((this->y/(this->x*1.0))) <= atan(otro.y/(otro.x*1.0))){
                 es_menor = true;
@@ -80,7 +79,7 @@ Punto& Punto::operator=(const Punto &p){
 }
 
 ostream & operator<< (ostream & os, const Punto & pt){
-    os << "REAL = (" << pt.getX() << "," << pt.getY() << ")\tINTERNO = " << "(" << pt.x << "," << pt.y << ")";
+    os << "(" << pt.getX() << "," << pt.getY() << ")";
 
     return (os);
 }
