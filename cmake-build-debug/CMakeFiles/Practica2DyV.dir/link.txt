@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Practica2DyV.dir/src/main.cpp.o CMakeFiles/Practica2DyV.dir/src/punto.cpp.o -o Practica2DyV 
