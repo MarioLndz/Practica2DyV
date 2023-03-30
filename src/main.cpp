@@ -4,6 +4,7 @@
 #include<time.h>
 #include <vector>
 #include <set>
+#include <cmath>
 
 using namespace std;
 
@@ -38,7 +39,7 @@ Punto MenorOrdenado(vector<Punto> p){
 int main() {
     srand(time(NULL));
 
-    const int TOPE = 10;
+    const int TOPE = 5;
     const int LIMITE_SUP = 5;
 
     vector<Punto> puntos;
@@ -50,8 +51,8 @@ int main() {
         int x = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
         int y = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
 
-        p.insert(Punto(x,y));
-        puntos.push_back(Punto(x,y));
+        p.insert(Punto(x,y,offset{1,1}));
+        puntos.push_back(Punto(x,y, offset{1,1}));
 
     }
 

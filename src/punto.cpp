@@ -9,9 +9,11 @@
 
 using namespace std;
 
-Punto::Punto(int la_x, int la_y) {
-    this->x = la_x;
-    this->y = la_y;
+Punto::Punto(int la_x, int la_y, offset el_origen) {
+    this->x = la_x + el_origen.x;
+    this->y = la_y + el_origen.y;
+
+    this->origen = el_origen;
 
 }
 
@@ -32,18 +34,14 @@ int Punto::getCuadrante() const {
 
 }
 
-bool Punto::estaEnEje () const{
-    return (this->x == 0 || this->y == 0);
-}
-
 int Punto::getX() const{
 
-    return (this->x);
+    return (this->x - this->origen.x);
 }
 
 int Punto::getY() const{
 
-    return (this->y);
+    return (this->y - this->origen.y);
 }
 
 bool Punto::operator< (const Punto & otro) const{
@@ -72,23 +70,7 @@ bool Punto::operator< (const Punto & otro) const{
     }
     return (es_menor);
 }
-/*
-bool Punto::esMenor (const Punto & otro) const{
-    bool es_menor = false;
 
-    int cuadrante = getCuadrante();
-
-    if (cuadrante != otro.getCuadrante()){  // Distinto Cuadrante
-        if (cuadrante < otro.getCuadrante()){
-            es_menor = true;
-        }
-    } else {    // Mismo cuadrante
-        if (cuadrante == 1 || cuadrante == )
-
-    }
-    return (es_menor);
-}
-*/
 Punto& Punto::operator=(const Punto &p){
 
     this->x=p.getX();
@@ -98,7 +80,7 @@ Punto& Punto::operator=(const Punto &p){
 }
 
 ostream & operator<< (ostream & os, const Punto & pt){
-    os << "(" << pt.x << "," << pt.y << ")";
+    os << "REAL = (" << pt.getX() << "," << pt.getY() << ")\tINTERNO = " << "(" << pt.x << "," << pt.y << ")";
 
     return (os);
 }
