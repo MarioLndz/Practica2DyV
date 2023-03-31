@@ -23,16 +23,21 @@ private:
 
 public:
     Punto(int la_x, int la_y, offset el_origen=offset{0,0});
+    Punto ();
 
     int getCuadrante () const;
 
     bool operator< (const Punto & otro) const;
-
-    bool estaEnEje() const;
+    bool operator> (const Punto & otro) const;
+    bool operator== (const Punto & otro) const;
+    bool operator<= (const Punto & otro) const;
+    bool operator>= (const Punto & otro) const;
 
     int getX() const;
 
     int getY() const;
+
+    void setOrigen (offset el_origen);
 
     friend ostream & operator<< (ostream & os, const Punto & pt);
 

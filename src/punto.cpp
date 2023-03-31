@@ -17,6 +17,13 @@ Punto::Punto(int la_x, int la_y, offset el_origen) {
 
 }
 
+Punto::Punto (){
+    this->x = 0;
+    this->y = 0;
+
+    this->origen = offset{0,0};
+}
+
 int Punto::getCuadrante() const {
     int cuadrante = 0;
 
@@ -70,16 +77,44 @@ bool Punto::operator< (const Punto & otro) const{
             }
         }
 
-
-
     }
     return (es_menor);
 }
 
-Punto& Punto::operator=(const Punto &p){
+bool Punto::operator> (const Punto & otro) const{   // this > otro <=> otro < this
+    return (otro < (*this));
+}
+bool Punto::operator== (const Punto & otro) const{
+    bool son_iguales = true;
 
-    this->x=p.getX();
-    this->y=p.getY();
+    if (this->x != otro.x){
+        son_iguales = false;
+    } else if (this->y != otro.y){
+        son_iguales = false;
+    } else {
+        if (this->origen.x != otro.origen.x) {
+            son_iguales = false;
+        } else if (this->origen.y != otro.origen.y){
+            son_iguales = false;
+        }
+    }
+
+    return (son_iguales);
+
+}
+bool Punto::operator<= (const Punto & otro) const{
+    return ((*this) == otro || (*this) < otro);
+
+
+}
+bool Punto::operator>= (const Punto & otro) const{
+    return ((*this) > otro || (*this) == otro);
+}
+
+Punto& Punto::operator=(const Punto &p){
+    this->x = p.getX();
+    this->y = p.getY();
+    this->origen = p.origen;
 
     return *this;
 }
