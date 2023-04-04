@@ -37,7 +37,7 @@ public:
 
     int getY() const;
 
-    void setOrigen (offset el_origen);
+    void setOrigen (Punto el_origen);
 
     friend ostream & operator<< (ostream & os, const Punto & pt);
 

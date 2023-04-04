@@ -124,3 +124,8 @@ ostream & operator<< (ostream & os, const Punto & pt){
 
     return (os);
 }
+
+void Punto::setOrigen(Punto el_origen) {
+    this->origen.x = el_origen.getX();
+    this->origen.y = el_origen.getY();
+}
