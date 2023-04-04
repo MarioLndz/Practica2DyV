@@ -13,26 +13,21 @@ using namespace std;
 
 Punto MenorOrdenado(const vector<Punto> & p){
     const int MAX = 100000;
-    Punto salida(MAX,MAX);
-    int maximo = MAX;
+    Punto salida = p.at(0);
+    int minimo = salida.getY();
 
-    for(int i=0;i<p.size();i++){
-
-        if(p.at(i).getY()<=maximo){
-
-            maximo=p.at(i).getY();
-
-            if(salida.getY()==p.at(i).getY()){
-
-                if(salida.getX()>p.at(i).getX()){
-
+    for(int i = 1; i < p.size(); ++i){
+        if(p.at(i).getY() <= minimo){
+            if (p.at(i).getY() == minimo) {
+                if(salida.getX() > p.at(i).getX()){
+                    minimo = p.at(i).getY();
                     salida=p.at(i);
                 }
-            }
-            else {
-
+            } else {
+                minimo = p.at(i).getY();
                 salida = p.at(i);
             }
+
         }
     }
 
