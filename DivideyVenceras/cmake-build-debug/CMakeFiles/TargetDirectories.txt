@@ -1,0 +1,3 @@
+/home/mario/Escritorio/Algoritmica/Practica2DyV/DivideyVenceras/cmake-build-debug/CMakeFiles/Practica2DyV.dir
+/home/mario/Escritorio/Algoritmica/Practica2DyV/DivideyVenceras/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mario/Escritorio/Algoritmica/Practica2DyV/DivideyVenceras/cmake-build-debug/CMakeFiles/rebuild_cache.dir
