@@ -1,6 +1,0 @@
-# ninja log v5
-0	275	1680626396055171556	CMakeFiles/Practica2DyV.dir/src/main.cpp.o	c7137788f736fae3
-0	17	1680690966950652941	build.ninja	366de712d3861c08
-275	310	1680626396091171761	Practica2DyV	40f4f1d518e91f8
-0	220	1680612941116934136	CMakeFiles/Practica2DyV.dir/src/punto.cpp.o	2c91c80ad808696c
-1	193	1680612596487299461	CMakeFiles/Practica2DyV.dir/src/QuickSort.cpp.o	f7bbb6e75d85e548
