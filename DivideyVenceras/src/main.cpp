@@ -106,7 +106,7 @@ vector<Punto> EnvolventeConexa(vector<Punto> p){
 // https://es.wikipedia.org/wiki/Envolvente_convexa
 // https://es.wikipedia.org/wiki/M%C3%A9todo_de_Graham
 
-// https://code-with-me.global.jetbrains.com/T6bi-mBf_SafpdhAPbjiow#p=CL&fp=E88DBB3E890228CE13CC0F3D432EC1D0B00233AFCF49A50A1949AA94740196C8
+// https://code-with-me.global.jetbrains.com/D9omBMbOSkkOaGjgxxd7Ew#p=CL&fp=4D7B1B5C6DC320F6CD1B1BA323CDBC2730FE00CA108F371DE6CC5DB29656BB80
 
 int main() {
     srand(time(NULL));
