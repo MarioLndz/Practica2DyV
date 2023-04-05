@@ -12,7 +12,6 @@
 using namespace std;
 
 Punto MenorOrdenado(const vector<Punto> & p){
-    const int MAX = 100000;
     Punto salida = p.at(0);
     int minimo = salida.getY();
 
@@ -25,6 +24,28 @@ Punto MenorOrdenado(const vector<Punto> & p){
                 }
             } else {
                 minimo = p.at(i).getY();
+                salida = p.at(i);
+            }
+
+        }
+    }
+
+    return salida;
+}
+
+Punto MayorOrdenada(const vector<Punto> & p){
+    Punto salida = p.at(0);
+    int maximo = salida.getY();
+
+    for(int i = 1; i < p.size(); ++i){
+        if(p.at(i).getY() >= maximo){
+            if (p.at(i).getY() == maximo) {
+                if(salida.getX() < p.at(i).getX()){
+                    maximo = p.at(i).getY();
+                    salida=p.at(i);
+                }
+            } else {
+                maximo = p.at(i).getY();
                 salida = p.at(i);
             }
 
@@ -49,20 +70,6 @@ bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
 }
 
 vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
-    int num_elementos = final - inicial;
-
-    // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
-    Punto origen = MenorOrdenado(p);
-
-    // O(n)
-    for (int i = 0; i < num_elementos; ++i){
-        p.at(i).setOrigen(origen);
-    }
-
-    // O(nlog(n))
-    quicksort(p, num_elementos);
-
-
     Punto p1 = p.at(0);
     Punto p2 = p.at(1);
     Punto p3 = p.at(2);
@@ -103,10 +110,52 @@ vector<Punto> EnvolventeConexa(vector<Punto> p){
     return (EnvolventeConexa_lims(p, 0, p.size()));
 }
 
+void OrdenaVector (vector<Punto> & p ){
+    int num_elementos = p.size();
+
+    // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
+    Punto origen = MenorOrdenado(p);
+
+    // O(n)
+    for (int i = 0; i < num_elementos; ++i){
+        p.at(i).setOrigen(origen);
+    }
+
+    // O(nlog(n))
+    quicksort(p, num_elementos);
+}
+
+int comparePuntos (const void * a, const void * b) {
+    Punto * p = (Punto *) a;
+    Punto * q = (Punto *) b;
+
+    int retorno = 0;
+
+    if (p->getX() < q->getX()){
+        retorno = -1;
+    } else if (p -> getX() > q->getX()) {
+        retorno = 1;
+    }
+    return (retorno);
+}
+
+void OrdenaPorOrdenada (vector<Punto> & p){
+    qsort(p.data(), p.size(), sizeof(Punto), comparePuntos);
+}
+
+/*
+ * pre: Ordenado por la ordenada (X)
+ */
+vector<Punto> DivideyVenceras (vector<Punto> p){
+
+
+}
+
+// https://barcelonageeks.com/casco-convexo-conjunto-1-algoritmo-o-envoltura-de-jarvis/
+
+
 // https://es.wikipedia.org/wiki/Envolvente_convexa
 // https://es.wikipedia.org/wiki/M%C3%A9todo_de_Graham
-
-// https://code-with-me.global.jetbrains.com/D9omBMbOSkkOaGjgxxd7Ew#p=CL&fp=4D7B1B5C6DC320F6CD1B1BA323CDBC2730FE00CA108F371DE6CC5DB29656BB80
 
 int main() {
     srand(time(NULL));
@@ -129,9 +178,18 @@ int main() {
 
     cout << "SIN ORDENAR" << endl;
     for (int i = 0; i < TOPE; ++i){
-        cout << puntos.at(i) << endl;
+        cout << puntos[i] << endl;
     }
 
+    OrdenaPorOrdenada(puntos);
+
+    cout << "ORDENADO POR X" << endl;
+    for (int i = 0; i < TOPE; ++i){
+        cout << puntos[i] << endl;
+    }
+
+     /*
+    OrdenaVector(puntos);
     vector<Punto> envolvente = EnvolventeConexa(puntos);
 
     cout << endl;
@@ -139,6 +197,6 @@ int main() {
     for (vector<Punto>::iterator it = envolvente.begin(); it != envolvente.end(); ++it){
         cout << *it << endl;
     }
-
+    */
     return 0;
 }
