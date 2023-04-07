@@ -69,8 +69,24 @@ bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
     return salida;
 }
 
+void OrdenaVector (vector<Punto> & p ){
+    int num_elementos = p.size();
+
+    // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
+    Punto origen = MenorOrdenado(p);
+
+    // O(n)
+    for (int i = 0; i < num_elementos; ++i){
+        p.at(i).setOrigen(origen);
+    }
+
+    // O(nlog(n))
+    quicksort(p, num_elementos);
+}
+
 vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
-    Punto p1 = p.at(0);
+
+Punto p1 = p.at(0);
     Punto p2 = p.at(1);
     Punto p3 = p.at(2);
 
@@ -110,21 +126,6 @@ vector<Punto> EnvolventeConexa(vector<Punto> p){
     return (EnvolventeConexa_lims(p, 0, p.size()));
 }
 
-void OrdenaVector (vector<Punto> & p ){
-    int num_elementos = p.size();
-
-    // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
-    Punto origen = MenorOrdenado(p);
-
-    // O(n)
-    for (int i = 0; i < num_elementos; ++i){
-        p.at(i).setOrigen(origen);
-    }
-
-    // O(nlog(n))
-    quicksort(p, num_elementos);
-}
-
 int comparePuntos (const void * a, const void * b) {
     Punto * p = (Punto *) a;
     Punto * q = (Punto *) b;
@@ -157,7 +158,7 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
 // https://es.wikipedia.org/wiki/Envolvente_convexa
 // https://es.wikipedia.org/wiki/M%C3%A9todo_de_Graham
 
-// https://code-with-me.global.jetbrains.com/9Ozjm7kBsIaZDmky5aM7Qg#p=CL&fp=F841C4A26CAF564DEB77FA54548262FDE027383FBD2053C88F5B9AE1DB72A701
+// https://code-with-me.global.jetbrains.com/ohVZ2epGuSWnNNU-t7GH0g#p=CL&fp=2BB0FAFC725C075315AD45B25152529E3B1EB1F46B61C79B05CE86D430AABC9C
 
 int main() {
     srand(time(NULL));
