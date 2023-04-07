@@ -10,12 +10,12 @@
 #include "QuickSort.h"
 
 using namespace std;
-
-Punto MenorOrdenado(const vector<Punto> & p){
-    Punto salida = p.at(0);
+Punto MenorOrdenado_lims(const vector<Punto> & p, int inicio, int final){
+    Punto salida = p.at(inicio);
+    int tamanio = final - inicio;
     int minimo = salida.getY();
 
-    for(int i = 1; i < p.size(); ++i){
+    for(int i = inicio+1; i < tamanio; ++i){
         if(p.at(i).getY() <= minimo){
             if (p.at(i).getY() == minimo) {
                 if(salida.getX() > p.at(i).getX()){
@@ -31,6 +31,9 @@ Punto MenorOrdenado(const vector<Punto> & p){
     }
 
     return salida;
+}
+Punto MenorOrdenado(const vector<Punto> & p){
+    MenorOrdenado_lims(p, 0, p.size());
 }
 
 Punto MayorOrdenada(const vector<Punto> & p){
@@ -85,10 +88,28 @@ void OrdenaVector (vector<Punto> & p ){
 }
 
 vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
+    int num_elementos = final - inicial;
 
-Punto p1 = p.at(0);
-    Punto p2 = p.at(1);
-    Punto p3 = p.at(2);
+    // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
+    Punto origen = MenorOrdenado_lims(p, inicial, final);
+
+    // O(n)
+    for (int i = inicial; i < num_elementos; ++i){
+        p.at(i).setOrigen(origen);
+    }
+
+    // O(nlog(n))
+    quicksort(p, num_elementos);
+
+    cout << "ORDENADO:\t";
+    for (int i = inicial; i < final; ++i){
+        cout << p.at(i) << "\t";
+    }
+    cout << endl;
+
+    Punto p1 = p.at(inicial);
+    Punto p2 = p.at(inicial+1);
+    Punto p3 = p.at(inicial+2);
 
     vector<Punto> salida;
 
@@ -114,6 +135,12 @@ Punto p1 = p.at(0);
         salida.push_back(p.at(i));
 
     }
+
+    cout << "ENVOLVENTE:\t";
+    for (auto p = salida.begin(); p != salida.end(); ++p){
+        cout << *p << "\t";
+    }
+    cout << endl;
 
     return (salida);
 }
@@ -144,10 +171,63 @@ void OrdenaPorOrdenada (vector<Punto> & p){
     qsort(p.data(), p.size(), sizeof(Punto), comparePuntos);
 }
 
+// Encuentra la mayor (la que se encuentra más arriba) y la menor tangente
+// (la que se encuentra más abajo) que hay entre dos polinomios distintos
+
+void MayorTangente(vector<Punto> izquierda, vector<Punto> derecha){
+    // Vemos cuántos puntos hay en cada polinomio
+    int n1 = izquierda.size();
+    int n2 = derecha.size();
+
+    // Buscamos el punto más a la derecha del polinomio izquierdo y el punto más a
+    // la izquierda del polinomio derecho
+
+    int a = 0;
+
+    while (izquierda.at(a).getX() <= izquierda.at(a+1).getX() && a < n1){
+        ++a;
+    }
+    ++a;
+
+    int b = n2;
+    while (derecha.at(b).getX() >= derecha.at(b-1).getX() && b > 0){
+        --b;
+    }
+
+    int inda = a, indb = b;
+    bool done = false;
+
+    while (!done){
+        done = true;
+        while (GiroALaDerecha(derecha.at(indb), izquierda.at(inda), izquierda.at((inda+1)%n1))){
+            inda = (inda + 1) % n1;
+        }
+
+        while (!GiroALaDerecha(izquierda.at(inda), derecha.at(indb), derecha.at((n2+indb-1)%n2))){
+            indb = (n2+indb-1)%n2;
+            done = false;
+        }
+    }
+
+    cout << izquierda.at(inda) << "\t" << derecha.at(indb) << endl;
+
+}
+
 /*
  * pre: Ordenado por la ordenada (X)
  */
 vector<Punto> DivideyVenceras (vector<Punto> p){
+    OrdenaPorOrdenada(p);
+
+    cout << "DIVIDE Y VENCERAS:\t";
+    for (auto i = p.begin(); i != p.end(); ++i){
+        cout << *i << "\t";
+    }
+    cout << endl << endl;
+
+    EnvolventeConexa_lims(p, 0, p.size()/2);
+    EnvolventeConexa_lims(p, (p.size()/2)+(p.size()%2), p.size());
+
 
 
 }
@@ -184,22 +264,8 @@ int main() {
         cout << puntos[i] << endl;
     }
 
-    OrdenaPorOrdenada(puntos);
+    DivideyVenceras(puntos);
 
-    cout << "ORDENADO POR X" << endl;
-    for (int i = 0; i < TOPE; ++i){
-        cout << puntos[i] << endl;
-    }
 
-     /*
-    OrdenaVector(puntos);
-    vector<Punto> envolvente = EnvolventeConexa(puntos);
-
-    cout << endl;
-    cout << "ENVOLVENTE CONVEXA" << endl;
-    for (vector<Punto>::iterator it = envolvente.begin(); it != envolvente.end(); ++it){
-        cout << *it << endl;
-    }
-    */
     return 0;
 }
