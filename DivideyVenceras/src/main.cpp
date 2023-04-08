@@ -235,13 +235,30 @@ vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto
 
 vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
     vector<int> tangentes = CalculaTangentes(U, V);
-    cout << "Tangente:\n";
-    for (auto it = tangentes.begin(); it != tangentes.end(); ++it){
-        cout << *it << "\t";
-    }
-    cout << endl;
+
+    int n1 = U.size();
+    int n2 = V.size();
 
     vector<Punto> salida;
+
+    int tsup_d = tangentes.at(0);
+    int tsup_i = tangentes.at(1);
+
+    int tinf_d = tangentes.at(2);
+    int tinf_i = tangentes.at(3);
+
+    cout << "TANGENTES:\t" << tsup_d << "\t" << tsup_i << "\t" << tinf_d << "\t" << tinf_i << endl;
+
+
+    for (int i = tinf_d; i <= tsup_d; i=(i+1)%n2){
+        salida.push_back(V.at(i));
+    }
+
+    for (int j = tsup_i; j >= tinf_i; j=(j+1)%n1){
+        salida.push_back(U.at(j));
+    }
+
+    quicksort(salida, salida.size());
 
     return (salida);
 }
@@ -252,18 +269,12 @@ vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
 vector<Punto> DivideyVenceras (vector<Punto> p){
     OrdenaPorOrdenada(p);
 
-    cout << "DIVIDE Y VENCERAS:\t";
-    for (auto i = p.begin(); i != p.end(); ++i){
-        cout << *i << "\t";
-    }
-    cout << endl << endl;
-
     vector<Punto> U = EnvolventeConexa_lims(p, 0, p.size()/2);
     vector<Punto> V = EnvolventeConexa_lims(p, (p.size()/2)+(p.size()%2), p.size());
 
-    Fusion(U,V);
+    vector<Punto> salida = Fusion(U,V);
 
-    return (p);
+    return (salida);
 
 }
 
@@ -273,7 +284,7 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
 // https://es.wikipedia.org/wiki/Envolvente_convexa
 // https://es.wikipedia.org/wiki/M%C3%A9todo_de_Graham
 
-// https://code-with-me.global.jetbrains.com/1C-3HYoknGpbHx4cESkXhQ#p=CL&fp=CC7CB05072EC3227F21C3403743715B37A118A9EE5CB9BAF45C5183A19C1F404
+// https://code-with-me.global.jetbrains.com/JjBClpAQ4uoxgqsm5lYEKg#p=CL&fp=AAA1B13C15F9F92D28150823B8A49786F8D5FE0462AF197F46AC1369C245120E
 
 int main() {
     srand(time(NULL));
@@ -299,9 +310,19 @@ int main() {
         cout << puntos[i] << endl;
     }
 
-    DivideyVenceras(puntos);
+    vector<Punto> salida = DivideyVenceras(puntos);
 
+    vector<Punto> prueba = EnvolventeConexa(puntos);
 
+    for (auto it = salida.begin(); it != salida.end(); ++it){
+        cout << *it << "\t";
+    }
+    cout  << endl;
+
+    for (auto it = prueba.begin(); it != prueba.end(); ++it){
+        cout << *it << "\t";
+    }
+    cout  << endl;
 
     return 0;
 }
