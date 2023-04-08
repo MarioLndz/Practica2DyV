@@ -238,7 +238,7 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
 // https://es.wikipedia.org/wiki/Envolvente_convexa
 // https://es.wikipedia.org/wiki/M%C3%A9todo_de_Graham
 
-// https://code-with-me.global.jetbrains.com/ohVZ2epGuSWnNNU-t7GH0g#p=CL&fp=2BB0FAFC725C075315AD45B25152529E3B1EB1F46B61C79B05CE86D430AABC9C
+// https://code-with-me.global.jetbrains.com/VKZ52RS1f6pGkbFhXZ87AA#p=CL&fp=10F8E164861B652BCE895CCBB8A662C5650FCBF8CA975974ECEDC260D42A6730
 
 int main() {
     srand(time(NULL));
