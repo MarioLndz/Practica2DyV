@@ -1,18 +1,22 @@
 #include <iostream>
-#include<stdlib.h>
 #include<time.h>
 #include <vector>
-#include <set>
-#include <cmath>
 #include <cstdlib>
 
 #include "punto.h"
 #include "QuickSort.h"
 
 using namespace std;
+
+/**
+ * @brief Esta función se encargará de buscar el punto con la menor ordenada en parte de una colección de puntos
+ * @param p Vector de puntos
+ * @param inicio Posicion de inicio
+ * @param final Posicion final de búsqueda
+ * @return Punto del vector situado más abajo y a la izquierda (la menor ordenada)
+ */
 Punto MenorOrdenado_lims(const vector<Punto> & p, int inicio, int final){
     Punto salida = p.at(inicio);
-    int tamanio = final - inicio;
     int minimo = salida.getY();
 
     for(int i = inicio+1; i < final; ++i){
@@ -32,34 +36,23 @@ Punto MenorOrdenado_lims(const vector<Punto> & p, int inicio, int final){
 
     return salida;
 }
+
+/**
+ * @brief Encuentra el punto con la menor ordenada de un vector de puntos dado
+ * @param p Vector de puntos
+ * @return Punto del vector situado más abajo y a la izquierda (la menor ordenada)
+ */
 Punto MenorOrdenado(const vector<Punto> & p){
     return (MenorOrdenado_lims(p, 0, p.size()));
 }
 
-Punto MayorOrdenada(const vector<Punto> & p){
-    Punto salida = p.at(0);
-    int maximo = salida.getY();
-
-    for(int i = 1; i < p.size(); ++i){
-        if(p.at(i).getY() >= maximo){
-            if (p.at(i).getY() == maximo) {
-                if(salida.getX() < p.at(i).getX()){
-                    maximo = p.at(i).getY();
-                    salida=p.at(i);
-                }
-            } else {
-                maximo = p.at(i).getY();
-                salida = p.at(i);
-            }
-
-        }
-    }
-
-    return salida;
-}
-
-// devuelve true en caso de ser un giro a la dcha y falso en caso de que sea a la izq
-
+/**
+ * Esta función comprobará si el segmento que forman tres puntos dados forman un giro a la derecha
+ * @param p1 Primer punto del segmento
+ * @param p2 Segundo punto del segmento
+ * @param p3 Tercer punto del segmento
+ * @return Devuelve true en caso de formarse un giro a la derecha entre los tres puntos y false en caso contrario
+ */
 bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
 
     bool salida = false;             // uso la fórmula
@@ -72,25 +65,16 @@ bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
     return salida;
 }
 
-void OrdenaVector (vector<Punto> & p ){
-    int num_elementos = p.size();
-
-    // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
-    Punto origen = MenorOrdenado(p);
-
-    // O(n)
-    for (int i = 0; i < num_elementos; ++i){
-        p.at(i).setOrigen(origen);
-    }
-
-    // O(nlog(n))
-    quicksort(p, num_elementos);
-}
-
-vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
+/**
+ * @brief Ordena segun el angulo a partir de la menor ordenada de parte de una coleccion de puntos dada
+ * @param p Vector de puntos
+ * @param inicial Posicion inicial
+ * @param final Posicion final
+ */
+void OrdenaPorAngulo_lims (vector<Punto> & p, int inicial, int final){
+    // Primero ordenamos el vector según el ángulo formado, tomando como origen al punto con la menor ordenada
     // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
     Punto origen = MenorOrdenado_lims(p, inicial, final);
-    cout << "MENOR ORDENADA:\t" << origen << endl;
 
     // O(n)
     for (int i = inicial; i < final; ++i){
@@ -99,13 +83,28 @@ vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
 
     // O(nlog(n))
     quicksort_lims(p, inicial, final);
+}
 
-    cout << "ORDENADO:\t";
-    for (int i = inicial; i < final; ++i){
-        cout << p.at(i) << "\t";
-    }
-    cout << endl;
+/**
+ * @brief Ordena segun el angulo a partir de la menor ordenada de una coleccion de puntos dada
+ * @param p
+ */
+void OrdenaPorAngulo (vector<Punto> & p){
+    OrdenaPorAngulo_lims(p, 0, p.size());
+}
 
+/**
+ * @brief Calcula la envolvente conexa de parte de una colección de puntos dado usando el algoritmo de escaneo de Graham
+ * @param p Vector de puntos
+ * @param inicial Posicion inicial sobre la que se realizaran los calculos
+ * @param final Posicion final
+ * @return Vector de puntos ordenado segun el ángulo que forman la envolvente convexa
+ */
+vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
+    // Primero ordenamos según el angulo
+    OrdenaPorAngulo_lims(p, inicial, final);
+
+    //Calculamos la envolvente convexa
     Punto p1 = p.at(inicial);
     Punto p2 = p.at(inicial+1);
     Punto p3 = p.at(inicial+2);
@@ -116,7 +115,7 @@ vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
     salida.push_back(p2);
     salida.push_back(p3);
 
-    // cogemos los dos primeros puntos y partir de ahí vamos comprobando si el segmento que
+    // cogemos los tres primeros puntos y partir de ahí vamos comprobando si el segmento que
     // forman p1 y p2 y el que forman p2 y p3 representan un dextrogiro (giro a la derecha)
 
     for(int i = inicial + 3; i < final; ++i){
@@ -135,23 +134,24 @@ vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
 
     }
 
-    cout << "ENVOLVENTE:\t";
-    for (auto p = salida.begin(); p != salida.end(); ++p){
-        cout << *p << "\t";
-    }
-    cout << endl;
-
     return (salida);
 }
 
-// nos quedamos con los puntos que pertencen a la envolvente conexa
-// recibe el vector ya ordenado
-
+/**
+ * @brief Funcion que calcula la envolvente convexa de una coleccion de puntos dado usando el algoritmo de escaneo de Graham
+ * @param p Vector de puntos
+ * @return Vector de puntos que contiene los puntos que forman la envolvente convexa
+ */
 vector<Punto> EnvolventeConexa(vector<Punto> p){
-
     return (EnvolventeConexa_lims(p, 0, p.size()));
 }
 
+/**
+ * @brief Funcion que nos permite comparar dos Puntos según su coordenada X
+ * @param a Primer Punto
+ * @param b Segundo Punto
+ * @return Devuelve -1 si a<b, 0 si a==b y 1 si a>b
+ */
 int comparePuntos (const void * a, const void * b) {
     Punto * p = (Punto *) a;
     Punto * q = (Punto *) b;
@@ -166,13 +166,24 @@ int comparePuntos (const void * a, const void * b) {
     return (retorno);
 }
 
+/**
+ * @brief Funcion que ordena un vector de puntos según su coordenada X
+ * @param p Vector de puntos a ordenar
+ */
 void OrdenaPorOrdenada (vector<Punto> & p){
     qsort(p.data(), p.size(), sizeof(Punto), comparePuntos);
 }
 
-// Encuentra la mayor (la que se encuentra más arriba) y la menor tangente
-// (la que se encuentra más abajo) que hay entre dos polinomios distintos
-
+/**
+ * @brief Función que calculará los indices de los puntos que forman la tangente exterior superior e inferior de dos
+ *        polígonos convexos.
+ * @pre Los Poligono no deben atravesarse, sino que uno se debe situar a la izquierda del otro.
+ * @param izquierda Poligono situado a la izquierda
+ * @param derecha Poligono situado a la derecha
+ * @return Vector de enteros cuyas dos primeras posiciones son los índices de los puntos del polinomio de la izquierda
+ *         y el de la derecha respectivamente que forman la tangente exterior superior. Las otras dos posiciones son
+ *         análogas para la tangente exterior inferior
+ */
 vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto> & derecha){
     // Vemos cuántos puntos hay en cada polinomio
     int n1 = izquierda.size();
@@ -198,10 +209,15 @@ vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto
 
     while (!done){
         done = true;
+
+        // A partir del punto b, calcularemos el primer giro que no sea a la derecha con puntos del polinomio de la
+        // izquierda
         while (GiroALaDerecha(derecha.at(tsup_b), izquierda.at(tsup_a), izquierda.at((tsup_a+1)%n1))){
             tsup_a = (tsup_a + 1) % n1;
         }
 
+        // Si tras encontrarlo el giro que se produce desde a, es a la izquierda, realizamos el mismo proceso pero ahora
+        // para el polinomio de la derecha
         while (!GiroALaDerecha(izquierda.at(tsup_a), derecha.at(tsup_b), derecha.at((n2+tsup_b-1)%n2))){
             tsup_b = (n2+tsup_b-1)%n2;
             done = false;
@@ -209,30 +225,35 @@ vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto
     }
 
     // Calculamos la tangente inferior, cuyo proceso es análogo solo que a la inversa
-    int tsub_a = a, tsub_b = b;
+    int tinf_a = a, tinf_b = b;
     done = false;
 
     while (!done){
         done = true;
-        while (GiroALaDerecha(izquierda.at(tsub_a), derecha.at(tsub_b), derecha.at((tsub_b+1)%n2))){
-            tsub_b = (tsub_b + 1)%n2;
+        while (GiroALaDerecha(izquierda.at(tinf_a), derecha.at(tinf_b), derecha.at((tinf_b+1)%n2))){
+            tinf_b = (tinf_b + 1)%n2;
         }
 
-        while (!GiroALaDerecha(derecha.at(tsub_b), izquierda.at(tsub_a), izquierda.at((n1+tsub_a-1)%n1))){
-            tsub_a = (n1+tsub_a-1)%n1;
+        while (!GiroALaDerecha(derecha.at(tinf_b), izquierda.at(tinf_a), izquierda.at((n1+tinf_a-1)%n1))){
+            tinf_a = (n1+tinf_a-1)%n1;
             done = false;
         }
 
     }
 
 
-    vector<int> salida = {tsup_a, tsup_b, tsub_a, tsub_b};
+    vector<int> salida = {tsup_a, tsup_b, tinf_a, tinf_b};
 
     return (salida);
 
 }
 
-
+/**
+ * @brief Funcion que une dos poligonos convexos a partir de sus tangentes exteriores
+ * @param U Primer polígono
+ * @param V Segundo polígono
+ * @return Polígono ya fusionado
+ */
 vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
     vector<int> tangentes = CalculaTangentes(U, V);
 
@@ -241,62 +262,82 @@ vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
 
     vector<Punto> salida;
 
-    int tsup_d = tangentes.at(0);
-    int tsup_i = tangentes.at(1);
+    int tsup_i = tangentes.at(0);   // Tangente superior izquierda
+    int tsup_d = tangentes.at(1);   // Tangente superior derecha
 
-    int tinf_d = tangentes.at(2);
-    int tinf_i = tangentes.at(3);
+    int tinf_i = tangentes.at(2);   // Tangente inferior izquierda
+    int tinf_d = tangentes.at(3);   // Tangente inferior derecha
 
-    cout << "TANGENTES:\t" << tsup_d << "\t" << tsup_i << "\t" << tinf_d << "\t" << tinf_i << endl;
-
-
-    for (int i = tinf_d; i <= tsup_d; i=(i+1)%n2){
+    // Aniadimos a salida desde el punto de la tangente inferior derecha hasta la superior derecha
+    for (int i = tinf_d; i != tsup_d; i=(i+1)%n2){
         salida.push_back(V.at(i));
     }
 
-    for (int j = tsup_i; j >= tinf_i; j=(j+1)%n1){
+    salida.push_back(V.at(tsup_d));
+
+    // Insertamos en salida desde la tangente superior izquierda hasta la inferior izquierda
+    for (int j = tsup_i; j != tinf_i; j=(j+1)%n1){
         salida.push_back(U.at(j));
     }
 
-    quicksort(salida, salida.size());
+    salida.push_back(U.at(tinf_i));
+
+    //Ordenamos previamente por el angulo
+    OrdenaPorAngulo(salida);
 
     return (salida);
 }
 
-/*
- * pre: Ordenado por la ordenada (X)
+const int UMBRAL = 5;
+
+/**
+ * @brief Funcion que calcula la envolvente conexa de parte de una coleccion de puntos dado siguiendo la filosofía
+ *        Divide y Venceras
+ * @pre El vector debe estar ordenado segun la ordenada
+ * @param p Vector de puntos
+ * @param inicial Posicion inicial
+ * @param final Posicion final
+ * @return Devuelve la envolvente convexa de los puntos dados
+ */
+vector <Punto> DivideyVenceras_lims (vector<Punto> p, int inicial, int final){
+    vector<Punto> solucion;
+    if (final - inicial <= UMBRAL){
+        solucion = EnvolventeConexa_lims(p, inicial, final);
+    } else {
+        int k = (final - inicial)/2;
+
+        vector<Punto> U (p.begin(), p.begin()+k);
+        vector<Punto> V (p.begin()+k, p.end());
+
+        solucion = Fusion(DivideyVenceras_lims(U, 0, k), DivideyVenceras_lims(V, 0, final-k));
+    }
+
+    return (solucion);
+}
+
+/**
+ * @brief Funcion que calcula la envolvente conexa de parte de una coleccion de puntos dado siguiendo la filosofía
+ *        Divide y Venceras
+ * @param p Vector de puntos
+ * @return Envolvente conexa de los puntos dados
  */
 vector<Punto> DivideyVenceras (vector<Punto> p){
-    OrdenaPorOrdenada(p);
-
-    vector<Punto> U = EnvolventeConexa_lims(p, 0, p.size()/2);
-    vector<Punto> V = EnvolventeConexa_lims(p, (p.size()/2)+(p.size()%2), p.size());
-
-    vector<Punto> salida = Fusion(U,V);
-
-    return (salida);
-
+    return (DivideyVenceras_lims(p, 0, p.size()));
 }
 
 // https://barcelonageeks.com/casco-convexo-conjunto-1-algoritmo-o-envoltura-de-jarvis/
 
-
 // https://es.wikipedia.org/wiki/Envolvente_convexa
 // https://es.wikipedia.org/wiki/M%C3%A9todo_de_Graham
 
-// https://code-with-me.global.jetbrains.com/JjBClpAQ4uoxgqsm5lYEKg#p=CL&fp=AAA1B13C15F9F92D28150823B8A49786F8D5FE0462AF197F46AC1369C245120E
-
 int main() {
-    srand(time(NULL));
-
     const int TOPE = 10;
     const int LIMITE_SUP = 10;
-
 
     vector<Punto> puntos;
 
     // Generamos tantos puntos como indice TOPE
-    // Las coordenadas estarán entre ] -LIMITE_SUP, LIMITE_SUP [
+    // Las coordenadas estarán entre ]-LIMITE_SUP, LIMITE_SUP[
     for (int i = 0; i < TOPE; ++i){
         int x = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
         int y = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
@@ -305,21 +346,22 @@ int main() {
 
     }
 
-    cout << "SIN ORDENAR" << endl;
+    cout << "SIN ORDENAR:\t";
     for (int i = 0; i < TOPE; ++i){
-        cout << puntos[i] << endl;
+        cout << puntos[i] << "\t";
     }
+    cout << endl;
 
+    OrdenaPorOrdenada(puntos);
+    cout << "ORDENADO:\t";
+    for (int i = 0; i < TOPE; ++i){
+        cout << puntos[i] << "\t";
+    }
+    cout << endl;
     vector<Punto> salida = DivideyVenceras(puntos);
 
-    vector<Punto> prueba = EnvolventeConexa(puntos);
-
+    cout << "ENVOLVENTE CONVEXA:\t";
     for (auto it = salida.begin(); it != salida.end(); ++it){
-        cout << *it << "\t";
-    }
-    cout  << endl;
-
-    for (auto it = prueba.begin(); it != prueba.end(); ++it){
         cout << *it << "\t";
     }
     cout  << endl;
