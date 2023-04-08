@@ -30,6 +30,7 @@ public:
     bool operator< (const Punto & otro) const;
     bool operator> (const Punto & otro) const;
     bool operator== (const Punto & otro) const;
+    bool operator!= (const Punto & otro) const;
     bool operator<= (const Punto & otro) const;
     bool operator>= (const Punto & otro) const;
 

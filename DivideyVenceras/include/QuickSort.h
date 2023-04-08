@@ -34,7 +34,7 @@ static void insercion_lims(vector<Punto> & T, int inicial, int final){
     Punto aux;
     for (i = inicial + 1; i < final; i++) {
         j = i;
-        while ((T[j] < T[j-1]) && (j > 0)) {
+        while ((T[j] < T[j-1]) && (j > inicial)) {
             aux = T[j];
             T[j] = T[j-1];
             T[j-1] = aux;

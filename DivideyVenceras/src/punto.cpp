@@ -91,17 +91,16 @@ bool Punto::operator== (const Punto & otro) const{
         son_iguales = false;
     } else if (this->y != otro.y){
         son_iguales = false;
-    } else {
-        if (this->origen.x != otro.origen.x) {
-            son_iguales = false;
-        } else if (this->origen.y != otro.origen.y){
-            son_iguales = false;
-        }
     }
 
     return (son_iguales);
 
 }
+
+bool Punto::operator!= (const Punto & otro) const{
+    return (!(*this == otro));
+}
+
 bool Punto::operator<= (const Punto & otro) const{
     return ((*this) == otro || (*this) < otro);
 

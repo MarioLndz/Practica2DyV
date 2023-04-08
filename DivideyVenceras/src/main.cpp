@@ -15,7 +15,7 @@ Punto MenorOrdenado_lims(const vector<Punto> & p, int inicio, int final){
     int tamanio = final - inicio;
     int minimo = salida.getY();
 
-    for(int i = inicio+1; i < tamanio; ++i){
+    for(int i = inicio+1; i < final; ++i){
         if(p.at(i).getY() <= minimo){
             if (p.at(i).getY() == minimo) {
                 if(salida.getX() > p.at(i).getX()){
@@ -33,7 +33,7 @@ Punto MenorOrdenado_lims(const vector<Punto> & p, int inicio, int final){
     return salida;
 }
 Punto MenorOrdenado(const vector<Punto> & p){
-    MenorOrdenado_lims(p, 0, p.size());
+    return (MenorOrdenado_lims(p, 0, p.size()));
 }
 
 Punto MayorOrdenada(const vector<Punto> & p){
@@ -88,18 +88,17 @@ void OrdenaVector (vector<Punto> & p ){
 }
 
 vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
-    int num_elementos = final - inicial;
-
     // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
     Punto origen = MenorOrdenado_lims(p, inicial, final);
+    cout << "MENOR ORDENADA:\t" << origen << endl;
 
     // O(n)
-    for (int i = inicial; i < num_elementos; ++i){
+    for (int i = inicial; i < final; ++i){
         p.at(i).setOrigen(origen);
     }
 
     // O(nlog(n))
-    quicksort(p, num_elementos);
+    quicksort_lims(p, inicial, final);
 
     cout << "ORDENADO:\t";
     for (int i = inicial; i < final; ++i){
@@ -174,7 +173,7 @@ void OrdenaPorOrdenada (vector<Punto> & p){
 // Encuentra la mayor (la que se encuentra más arriba) y la menor tangente
 // (la que se encuentra más abajo) que hay entre dos polinomios distintos
 
-void MayorTangente(vector<Punto> izquierda, vector<Punto> derecha){
+vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto> & derecha){
     // Vemos cuántos puntos hay en cada polinomio
     int n1 = izquierda.size();
     int n2 = derecha.size();
@@ -187,30 +186,64 @@ void MayorTangente(vector<Punto> izquierda, vector<Punto> derecha){
     while (izquierda.at(a).getX() <= izquierda.at(a+1).getX() && a < n1){
         ++a;
     }
-    ++a;
 
-    int b = n2;
+    int b = n2-1;
     while (derecha.at(b).getX() >= derecha.at(b-1).getX() && b > 0){
         --b;
     }
 
-    int inda = a, indb = b;
+    // Calculamos la tangente superior
+    int tsup_a = a, tsup_b = b;
     bool done = false;
 
     while (!done){
         done = true;
-        while (GiroALaDerecha(derecha.at(indb), izquierda.at(inda), izquierda.at((inda+1)%n1))){
-            inda = (inda + 1) % n1;
+        while (GiroALaDerecha(derecha.at(tsup_b), izquierda.at(tsup_a), izquierda.at((tsup_a+1)%n1))){
+            tsup_a = (tsup_a + 1) % n1;
         }
 
-        while (!GiroALaDerecha(izquierda.at(inda), derecha.at(indb), derecha.at((n2+indb-1)%n2))){
-            indb = (n2+indb-1)%n2;
+        while (!GiroALaDerecha(izquierda.at(tsup_a), derecha.at(tsup_b), derecha.at((n2+tsup_b-1)%n2))){
+            tsup_b = (n2+tsup_b-1)%n2;
             done = false;
         }
     }
 
-    cout << izquierda.at(inda) << "\t" << derecha.at(indb) << endl;
+    // Calculamos la tangente inferior, cuyo proceso es análogo solo que a la inversa
+    int tsub_a = a, tsub_b = b;
+    done = false;
 
+    while (!done){
+        done = true;
+        while (GiroALaDerecha(izquierda.at(tsub_a), derecha.at(tsub_b), derecha.at((tsub_b+1)%n2))){
+            tsub_b = (tsub_b + 1)%n2;
+        }
+
+        while (!GiroALaDerecha(derecha.at(tsub_b), izquierda.at(tsub_a), izquierda.at((n1+tsub_a-1)%n1))){
+            tsub_a = (n1+tsub_a-1)%n1;
+            done = false;
+        }
+
+    }
+
+
+    vector<int> salida = {tsup_a, tsup_b, tsub_a, tsub_b};
+
+    return (salida);
+
+}
+
+
+vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
+    vector<int> tangentes = CalculaTangentes(U, V);
+    cout << "Tangente:\n";
+    for (auto it = tangentes.begin(); it != tangentes.end(); ++it){
+        cout << *it << "\t";
+    }
+    cout << endl;
+
+    vector<Punto> salida;
+
+    return (salida);
 }
 
 /*
@@ -225,10 +258,12 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
     }
     cout << endl << endl;
 
-    EnvolventeConexa_lims(p, 0, p.size()/2);
-    EnvolventeConexa_lims(p, (p.size()/2)+(p.size()%2), p.size());
+    vector<Punto> U = EnvolventeConexa_lims(p, 0, p.size()/2);
+    vector<Punto> V = EnvolventeConexa_lims(p, (p.size()/2)+(p.size()%2), p.size());
 
+    Fusion(U,V);
 
+    return (p);
 
 }
 
@@ -265,6 +300,7 @@ int main() {
     }
 
     DivideyVenceras(puntos);
+
 
 
     return 0;
