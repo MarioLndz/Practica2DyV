@@ -1,7 +1,8 @@
 #include <iostream>
-#include<time.h>
+#include<fstream>
 #include <vector>
 #include <cstdlib>
+
 
 #include "punto.h"
 #include "QuickSort.h"
@@ -11,8 +12,8 @@ using namespace std;
 /**
  * @brief Esta función se encargará de buscar el punto con la menor ordenada en parte de una colección de puntos
  * @param p Vector de puntos
- * @param inicio Posicion de inicio
- * @param final Posicion final de búsqueda
+ * @param inicio Posición de inicio
+ * @param final Posición final de búsqueda
  * @return Punto del vector situado más abajo y a la izquierda (la menor ordenada)
  */
 Punto MenorOrdenado_lims(const vector<Punto> & p, int inicio, int final){
@@ -66,10 +67,10 @@ bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
 }
 
 /**
- * @brief Ordena segun el angulo a partir de la menor ordenada de parte de una coleccion de puntos dada
+ * @brief Ordena según el ángulo a partir de la menor ordenada de parte de una colección de puntos dada
  * @param p Vector de puntos
- * @param inicial Posicion inicial
- * @param final Posicion final
+ * @param inicial Posición inicial
+ * @param final Posición final
  */
 void OrdenaPorAngulo_lims (vector<Punto> & p, int inicial, int final){
     // Primero ordenamos el vector según el ángulo formado, tomando como origen al punto con la menor ordenada
@@ -86,7 +87,7 @@ void OrdenaPorAngulo_lims (vector<Punto> & p, int inicial, int final){
 }
 
 /**
- * @brief Ordena segun el angulo a partir de la menor ordenada de una coleccion de puntos dada
+ * @brief Ordena segun el angulo a partir de la menor ordenada de una colección de puntos dada
  * @param p
  */
 void OrdenaPorAngulo (vector<Punto> & p){
@@ -291,9 +292,9 @@ vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
 const int UMBRAL = 5;
 
 /**
- * @brief Funcion que calcula la envolvente conexa de parte de una coleccion de puntos dado siguiendo la filosofía
- *        Divide y Venceras
- * @pre El vector debe estar ordenado segun la ordenada
+ * @brief Funcion que calcula la envolvente conexa de parte de una colección de puntos dado siguiendo la filosofía
+ *        Divide y Vencerás
+ * @pre El vector debe estar ordenado según la coordenada X
  * @param p Vector de puntos
  * @param inicial Posicion inicial
  * @param final Posicion final
@@ -307,6 +308,7 @@ vector <Punto> DivideyVenceras_lims (vector<Punto> p, int inicial, int final){
         int k = (final - inicial)/2;
 
         vector<Punto> U (p.begin(), p.begin()+k);
+
         vector<Punto> V (p.begin()+k, p.end());
 
         solucion = Fusion(DivideyVenceras_lims(U, 0, k), DivideyVenceras_lims(V, 0, final-k));
@@ -332,31 +334,57 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
 
 // https://code-with-me.global.jetbrains.com/x-c2PuonJXq21SXSubSG5g#p=CL&fp=A80558952338E1A89A6484B5332C1D2672C285B3C3F87D61D83AE9E7C0E6CD94
 
-int main() {
-    const int TOPE = 10;
-    const int LIMITE_SUP = 10;
+/**
+ * Desde la carpeta del proyecto (donde veas la carpeta .git, si no la ves en ningun lado pulsa CTRL+h y te aparecera)
+ * abre en una terminal y escribe:
+ *      git add .
+ *      git commit -m "PRACTICA"
+ *      git push
+ *
+ * Si te pide usuario pon tu usuario de github y la contraseña pon la siguiente:
+ *          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
+ */
+
+int main (int argc, char * argv[]) {
+    if (argc != 2){
+        cout << "Invalid number of arguments" << endl;
+        exit(1);
+    }
+
+    // Leemos los datos de entrada
+    ifstream file;
+
+    file.open(argv[1]);
+
+    if (!file){
+        cout << "Error opening file" << endl;
+        exit(1);
+    }
 
     vector<Punto> puntos;
+    bool done = false;
+    while (!done){
+        int x, y;
 
-    // Generamos tantos puntos como indice TOPE
-    // Las coordenadas estarán entre ]-LIMITE_SUP, LIMITE_SUP[
-    for (int i = 0; i < TOPE; ++i){
-        int x = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
-        int y = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
+        file >> x >> y;
 
-        puntos.push_back(Punto(x,y));
+        if (file.eof()){
+            done = true;
+        } else {
+            puntos.push_back(Punto(x,y));
+        }
 
     }
 
     cout << "SIN ORDENAR:\t";
-    for (int i = 0; i < TOPE; ++i){
+    for (int i = 0; i < puntos.size(); ++i){
         cout << puntos[i] << "\t";
     }
     cout << endl;
 
     OrdenaPorOrdenada(puntos);
     cout << "ORDENADO:\t";
-    for (int i = 0; i < TOPE; ++i){
+    for (int i = 0; i < puntos.size(); ++i){
         cout << puntos[i] << "\t";
     }
     cout << endl;
