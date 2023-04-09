@@ -330,6 +330,8 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
 // https://es.wikipedia.org/wiki/Envolvente_convexa
 // https://es.wikipedia.org/wiki/M%C3%A9todo_de_Graham
 
+// https://code-with-me.global.jetbrains.com/x-c2PuonJXq21SXSubSG5g#p=CL&fp=A80558952338E1A89A6484B5332C1D2672C285B3C3F87D61D83AE9E7C0E6CD94
+
 int main() {
     const int TOPE = 10;
     const int LIMITE_SUP = 10;
