@@ -341,7 +341,7 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
  *      git commit -m "PRACTICA"
  *      git push
  *
- * Si te pide usuario pon tu usuario de github y la contraseña pon la siguiente:
+ * Si  te pide usuario pon tu usuario de github y la contraseña pon la siguiente:
  *          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
  */
 
