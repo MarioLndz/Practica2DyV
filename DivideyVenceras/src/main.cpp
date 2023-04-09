@@ -2,12 +2,15 @@
 #include<fstream>
 #include <vector>
 #include <cstdlib>
+#include <chrono>
+#include <random>
 
 
 #include "punto.h"
 #include "QuickSort.h"
 
 using namespace std;
+using namespace std::chrono;
 
 /**
  * @brief Esta función se encargará de buscar el punto con la menor ordenada en parte de una colección de puntos
@@ -388,7 +391,19 @@ int main (int argc, char * argv[]) {
         cout << puntos[i] << "\t";
     }
     cout << endl;
+
+    high_resolution_clock::time_point t_antes, t_despues;
+    duration<double> transcurrido;
+
+    t_antes = high_resolution_clock::now();
+
+    //sentencia o programa a medir
+
     vector<Punto> salida = DivideyVenceras(puntos);
+
+    t_despues = high_resolution_clock::now();
+    transcurrido = duration_cast<duration<double>>(t_despues - t_antes);
+    cout << n << "  " << transcurrido.count() << endl;
 
     cout << "ENVOLVENTE CONVEXA:\t";
     for (auto it = salida.begin(); it != salida.end(); ++it){
