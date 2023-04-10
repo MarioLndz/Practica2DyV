@@ -2,12 +2,13 @@
 #include<fstream>
 #include<set>
 #include<time.h>
+#include<string>
 
 using namespace std;
 
 int main (int argc, char * argv[]){
 
-    if (argc != 2) {
+    if (argc != 2 && argc != 3) {
         cout << "Invalid number of arguments" << endl;
         exit(1);
 
@@ -15,9 +16,15 @@ int main (int argc, char * argv[]){
 
     const int TOPE = atoi(argv[1]);
 
+    string filename = "data.txt";
+
+    if (argc == 3){
+        filename = argv[2];
+    }
+
     ofstream file;
 
-    file.open("data.txt");
+    file.open(filename.c_str());
 
     if (!file){
         exit(-1);
