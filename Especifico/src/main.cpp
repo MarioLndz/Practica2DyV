@@ -5,6 +5,7 @@
 #include <set>
 #include <cmath>
 #include <cstdlib>
+#include <fstream>
 
 #include "punto.h"
 #include "QuickSort.h"
@@ -12,12 +13,18 @@
 
 using namespace std;
 
-Punto MenorOrdenado(const vector<Punto> & p){
-    const int MAX = 100000;
-    Punto salida = p.at(0);
+/**
+ * @brief Esta función se encargará de buscar el punto con la menor ordenada en parte de una colección de puntos
+ * @param p Vector de puntos
+ * @param inicio Posición de inicio
+ * @param final Posición final de búsqueda
+ * @return Punto del vector situado más abajo y a la izquierda (la menor ordenada)
+ */
+Punto MenorOrdenado_lims(const vector<Punto> & p, int inicio, int final){
+    Punto salida = p.at(inicio);
     int minimo = salida.getY();
 
-    for(int i = 1; i < p.size(); ++i){
+    for(int i = inicio+1; i < final; ++i){
         if(p.at(i).getY() <= minimo){
             if (p.at(i).getY() == minimo) {
                 if(salida.getX() > p.at(i).getX()){
@@ -35,8 +42,22 @@ Punto MenorOrdenado(const vector<Punto> & p){
     return salida;
 }
 
-// devuelve true en caso de ser un giro a la dcha y falso en caso de que sea a la izq
+/**
+ * @brief Encuentra el punto con la menor ordenada de un vector de puntos dado
+ * @param p Vector de puntos
+ * @return Punto del vector situado más abajo y a la izquierda (la menor ordenada)
+ */
+Punto MenorOrdenado(const vector<Punto> & p){
+    return (MenorOrdenado_lims(p, 0, p.size()));
+}
 
+/**
+ * Esta función comprobará si el segmento que forman tres puntos dados forman un giro a la derecha
+ * @param p1 Primer punto del segmento
+ * @param p2 Segundo punto del segmento
+ * @param p3 Tercer punto del segmento
+ * @return Devuelve true en caso de formarse un giro a la derecha entre los tres puntos y false en caso contrario
+ */
 bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
 
     bool salida = false;             // uso la fórmula
@@ -49,24 +70,49 @@ bool GiroALaDerecha(Punto p1, Punto p2, Punto p3){
     return salida;
 }
 
-vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
-    int num_elementos = final - inicial;
-
+/**
+ * @brief Ordena según el ángulo a partir de la menor ordenada de parte de una colección de puntos dada
+ * @param p Vector de puntos
+ * @param inicial Posición inicial
+ * @param final Posición final
+ */
+void OrdenaPorAngulo_lims (vector<Punto> & p, int inicial, int final){
+    // Primero ordenamos el vector según el ángulo formado, tomando como origen al punto con la menor ordenada
     // Buscamos el punto con la menor ordenada y la seleccionamos como nuestro origen
-    Punto origen = MenorOrdenado(p);
+    Punto origen = MenorOrdenado_lims(p, inicial, final);
 
     // O(n)
-    for (int i = 0; i < num_elementos; ++i){
+    for (int i = inicial; i < final; ++i){
         p.at(i).setOrigen(origen);
     }
 
     // O(nlog(n))
-    quicksort(p, num_elementos);
+    quicksort_lims(p, inicial, final);
+}
 
+/**
+ * @brief Ordena segun el angulo a partir de la menor ordenada de una colección de puntos dada
+ * @param p
+ */
+void OrdenaPorAngulo (vector<Punto> & p){
+    OrdenaPorAngulo_lims(p, 0, p.size());
+}
 
-    Punto p1 = p.at(0);
-    Punto p2 = p.at(1);
-    Punto p3 = p.at(2);
+/**
+ * @brief Calcula la envolvente conexa de parte de una colección de puntos dado usando el algoritmo de escaneo de Graham
+ * @param p Vector de puntos
+ * @param inicial Posicion inicial sobre la que se realizaran los calculos
+ * @param final Posicion final
+ * @return Vector de puntos ordenado segun el ángulo que forman la envolvente convexa
+ */
+vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
+    // Primero ordenamos según el angulo
+    OrdenaPorAngulo_lims(p, inicial, final);
+
+    //Calculamos la envolvente convexa
+    Punto p1 = p.at(inicial);
+    Punto p2 = p.at(inicial+1);
+    Punto p3 = p.at(inicial+2);
 
     vector<Punto> salida;
 
@@ -74,7 +120,7 @@ vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
     salida.push_back(p2);
     salida.push_back(p3);
 
-    // cogemos los dos primeros puntos y partir de ahí vamos comprobando si el segmento que
+    // cogemos los tres primeros puntos y partir de ahí vamos comprobando si el segmento que
     // forman p1 y p2 y el que forman p2 y p3 representan un dextrogiro (giro a la derecha)
 
     for(int i = inicial + 3; i < final; ++i){
@@ -96,11 +142,12 @@ vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
     return (salida);
 }
 
-// nos quedamos con los puntos que pertencen a la envolvente conexa
-// recibe el vector ya ordenado
-
+/**
+ * @brief Funcion que calcula la envolvente convexa de una coleccion de puntos dado usando el algoritmo de escaneo de Graham
+ * @param p Vector de puntos
+ * @return Vector de puntos que contiene los puntos que forman la envolvente convexa
+ */
 vector<Punto> EnvolventeConexa(vector<Punto> p){
-
     return (EnvolventeConexa_lims(p, 0, p.size()));
 }
 
@@ -109,37 +156,50 @@ vector<Punto> EnvolventeConexa(vector<Punto> p){
 
 // https://code-with-me.global.jetbrains.com/T6bi-mBf_SafpdhAPbjiow#p=CL&fp=E88DBB3E890228CE13CC0F3D432EC1D0B00233AFCF49A50A1949AA94740196C8
 
-int main() {
-    srand(time(NULL));
+int main(int argc, char * argv[]) {
+    if (argc != 2){
+        cout << "Invalid number of arguments" << endl;
+        exit(1);
+    }
 
-    const int TOPE = 10;
-    const int LIMITE_SUP = 10;
+    // Leemos los datos de entrada
+    ifstream file;
 
+    file.open(argv[1]);
+
+    if (!file){
+        cout << "Error opening file" << endl;
+        exit(1);
+    }
 
     vector<Punto> puntos;
+    bool done = false;
+    while (!done){
+        int x, y;
 
-    // Generamos tantos puntos como indice TOPE
-    // Las coordenadas estarán entre ] -LIMITE_SUP, LIMITE_SUP [
-    for (int i = 0; i < TOPE; ++i){
-        int x = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
-        int y = (-1*LIMITE_SUP) + rand()%(2*LIMITE_SUP);
+        file >> x >> y;
 
-        puntos.push_back(Punto(x,y));
+        if (file.eof()){
+            done = true;
+        } else {
+            puntos.push_back(Punto(x,y));
+        }
 
     }
 
-    cout << "SIN ORDENAR" << endl;
-    for (int i = 0; i < TOPE; ++i){
-        cout << puntos.at(i) << endl;
+    cout << "SIN ORDENAR:\t";
+    for (int i = 0; i < (int)puntos.size(); ++i){
+        cout << puntos[i] << "\t";
     }
+    cout << endl;
 
     vector<Punto> envolvente = EnvolventeConexa(puntos);
 
-    cout << endl;
-    cout << "ENVOLVENTE CONVEXA" << endl;
-    for (vector<Punto>::iterator it = envolvente.begin(); it != envolvente.end(); ++it){
-        cout << *it << endl;
+    cout << "ENVOLVENTE CONVEXA:\t";
+    for (auto it = envolvente.begin(); it != envolvente.end(); ++it){
+        cout << *it << "\t";
     }
+    cout  << endl;
 
     return 0;
 }

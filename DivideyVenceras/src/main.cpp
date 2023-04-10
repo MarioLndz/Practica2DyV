@@ -369,14 +369,14 @@ int main (int argc, char * argv[]) {
     }
 
     cout << "SIN ORDENAR:\t";
-    for (int i = 0; i < puntos.size(); ++i){
+    for (int i = 0; i < (int)puntos.size(); ++i){
         cout << puntos[i] << "\t";
     }
     cout << endl;
 
     OrdenaPorOrdenada(puntos);
     cout << "ORDENADO:\t";
-    for (int i = 0; i < puntos.size(); ++i){
+    for (int i = 0; i < (int)puntos.size(); ++i){
         cout << puntos[i] << "\t";
     }
     cout << endl;
