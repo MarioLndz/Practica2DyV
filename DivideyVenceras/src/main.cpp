@@ -337,17 +337,6 @@ vector<Punto> DivideyVenceras (vector<Punto> p){
 
 // https://code-with-me.global.jetbrains.com/x-c2PuonJXq21SXSubSG5g#p=CL&fp=A80558952338E1A89A6484B5332C1D2672C285B3C3F87D61D83AE9E7C0E6CD94
 
-/**
- * Desde la carpeta del proyecto (donde veas la carpeta .git, si no la ves en ningun lado pulsa CTRL+h y te aparecera)
- * abre en una terminal y escribe:
- *      git add .
- *      git commit -m "PRACTICA"
- *      git push
- *
- * Si  te pide usuario pon tu usuario de github y la contraseña pon la siguiente:
- *          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
- */
-
 int main (int argc, char * argv[]) {
     if (argc != 2){
         cout << "Invalid number of arguments" << endl;
@@ -403,7 +392,7 @@ int main (int argc, char * argv[]) {
 
     t_despues = high_resolution_clock::now();
     transcurrido = duration_cast<duration<double>>(t_despues - t_antes);
-    cout << n << "  " << transcurrido.count() << endl;
+    cout << puntos.size() << "  " << transcurrido.count() << endl;
 
     cout << "ENVOLVENTE CONVEXA:\t";
     for (auto it = salida.begin(); it != salida.end(); ++it){
