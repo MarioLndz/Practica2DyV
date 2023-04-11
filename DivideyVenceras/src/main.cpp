@@ -339,7 +339,7 @@ vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
      salida.push_back(aux.at(i));
      int tamanio = aux.size();
 
-     for (int j = i+1; j != i; j=(j+1)%tamanio){
+     for (int j = (i+1)%tamanio; j != i; j=(j+1)%tamanio){
          salida.push_back(aux.at(j));
      }
 
@@ -369,6 +369,7 @@ vector <Punto> DivideyVenceras_lims (vector<Punto> p, int inicial, int final){
         vector<Punto> V (p.begin()+k, p.end());
 
         solucion = Fusion(DivideyVenceras_lims(U, 0, k), DivideyVenceras_lims(V, 0, final-k));
+
     }
 
     return (solucion);
@@ -422,18 +423,8 @@ int main (int argc, char * argv[]) {
 
     }
 
-    cout << "SIN ORDENAR:\t";
-    for (int i = 0; i < (int)puntos.size(); ++i){
-        cout << puntos[i] << "\t";
-    }
-    cout << endl;
 
     OrdenaPorOrdenada(puntos);
-    cout << "ORDENADO:\t";
-    for (int i = 0; i < (int)puntos.size(); ++i){
-        cout << puntos[i] << "\t";
-    }
-    cout << endl;
 
     high_resolution_clock::time_point t_antes, t_despues;
     duration<double> transcurrido;
@@ -447,12 +438,6 @@ int main (int argc, char * argv[]) {
     t_despues = high_resolution_clock::now();
     transcurrido = duration_cast<duration<double>>(t_despues - t_antes);
     cout << puntos.size() << "  " << transcurrido.count() << endl;
-
-    cout << "ENVOLVENTE CONVEXA:\t";
-    for (auto it = salida.begin(); it != salida.end(); ++it){
-        cout << *it << "\t";
-    }
-    cout  << endl;
 
     return 0;
 }

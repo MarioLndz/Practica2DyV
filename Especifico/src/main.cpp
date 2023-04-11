@@ -195,7 +195,7 @@ int main(int argc, char * argv[]) {
 
     t_despues = high_resolution_clock::now();
     transcurrido = duration_cast<duration<double>>(t_despues - t_antes);
-    cout << "TAMAÑO DE VECTOR:\t" << puntos.size() << "\t\tTIEMPO:\t" << transcurrido.count() << endl;
+    cout << puntos.size() << "\t" << transcurrido.count() << endl;
 
     return 0;
 }

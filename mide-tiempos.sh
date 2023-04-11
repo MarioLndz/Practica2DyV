@@ -7,7 +7,8 @@ do
 	./generador $1
   	
 	# Ejecutamos los puntos
-	./especifico data.txt $i >> salidaE.dat
-      i=$(( $i + 50000 ))
+	./especifico ./data.txt >> salidaE.dat
+	
+	i=$(( $i + 50000 ))
 done
       
