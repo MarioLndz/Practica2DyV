@@ -258,6 +258,7 @@ vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto
  * @param V Segundo polígono
  * @return Polígono ya fusionado
  */
+ /*
 vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
     vector<int> tangentes = CalculaTangentes(U, V);
 
@@ -290,7 +291,60 @@ vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
     OrdenaPorAngulo(salida);
 
     return (salida);
-}
+}*/
+
+ vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
+     vector<int> tangentes = CalculaTangentes(U, V);
+
+     int n1 = U.size();
+     int n2 = V.size();
+
+     vector<Punto> aux;
+
+     int tsup_i = tangentes.at(0);   // Tangente superior izquierda
+     int tsup_d = tangentes.at(1);   // Tangente superior derecha
+
+     int tinf_i = tangentes.at(2);   // Tangente inferior izquierda
+     int tinf_d = tangentes.at(3);   // Tangente inferior derecha
+
+     // Aniadimos a salida desde el punto de la tangente inferior derecha hasta la superior derecha
+     for (int i = tinf_d; i != tsup_d; i=(i+1)%n2){
+         aux.push_back(V.at(i));
+     }
+
+     aux.push_back(V.at(tsup_d));
+
+     // Insertamos en salida desde la tangente superior izquierda hasta la inferior izquierda
+     for (int j = tsup_i; j != tinf_i; j=(j+1)%n1){
+         aux.push_back(U.at(j));
+     }
+
+     aux.push_back(U.at(tinf_i));
+
+     Punto menor_ordenada = MenorOrdenado(aux);
+
+     int i = 0;
+     bool encontrado_indice = false;
+
+     for (auto it = aux.begin(); it != aux.end(); ++it){
+         it->setOrigen(menor_ordenada);
+         if (!encontrado_indice && (*it) != menor_ordenada){
+             ++i;
+         } else {
+             encontrado_indice = true;
+         }
+     }
+
+     vector<Punto> salida;
+     salida.push_back(aux.at(i));
+     int tamanio = aux.size();
+
+     for (int j = i+1; j != i; j=(j+1)%tamanio){
+         salida.push_back(aux.at(j));
+     }
+
+     return (salida);
+ }
 
 const int UMBRAL = 5;
 
