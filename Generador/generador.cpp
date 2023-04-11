@@ -9,7 +9,7 @@ using namespace std;
 int main (int argc, char * argv[]){
 
     if (argc != 2 && argc != 3) {
-        cout << "Invalid number of arguments" << endl;
+        cout << "GENERADOR: Invalid number of arguments" << endl;
         exit(1);
 
     }
