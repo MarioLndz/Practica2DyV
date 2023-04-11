@@ -126,7 +126,7 @@ vector<Punto> EnvolventeConexa_lims(vector<Punto> p, int inicial, int final){
         p1 = salida.at(salida.size() - 2);
         p2 = salida.back();
         p3 = p.at(i);
-        while (salida.size() > 1 && GiroALaDerecha(p1,p2,p3)) {
+        while (salida.size() > 2 && GiroALaDerecha(p1,p2,p3)) {
             salida.pop_back();
 
             p1 = salida.at(salida.size() - 2);
@@ -198,12 +198,12 @@ vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto
 
     int a = 0;
 
-    while (izquierda.at(a).getX() <= izquierda.at(a+1).getX() && a < n1){
+    while (a < (n1-1) && izquierda.at(a).getX() <= izquierda.at(a+1).getX()){
         ++a;
     }
 
     int b = n2-1;
-    while (derecha.at(b).getX() >= derecha.at(b-1).getX() && b > 0){
+    while (b > 0 && derecha.at(b).getX() >= derecha.at(b-1).getX()){
         --b;
     }
 
@@ -244,7 +244,6 @@ vector<int> CalculaTangentes(const vector<Punto> & izquierda, const vector<Punto
         }
 
     }
-
 
     vector<int> salida = {tsup_a, tsup_b, tinf_a, tinf_b};
 
@@ -346,7 +345,7 @@ vector<Punto> Fusion (const vector<Punto>& U, const vector<Punto> & V){
      return (salida);
  }
 
-const int UMBRAL = 5;
+const int UMBRAL = 100;
 
 /**
  * @brief Funcion que calcula la envolvente conexa de parte de una colección de puntos dado siguiendo la filosofía

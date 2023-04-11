@@ -14,7 +14,11 @@ int main (int argc, char * argv[]){
 
     }
 
+
     const int TOPE = atoi(argv[1]);
+    const int MAX = TOPE/2;
+
+    int num_max = TOPE <= MAX ? TOPE : MAX;
 
     string filename = "data.txt";
 
@@ -32,7 +36,7 @@ int main (int argc, char * argv[]){
 
     set<pair<int,int>> p;
 
-    const int LIMITE_SUP = TOPE/2;
+    const int LIMITE_SUP = num_max/2;
 
     srand(time(NULL));
 

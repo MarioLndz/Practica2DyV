@@ -1,6 +1,6 @@
 #!/bin/bash 
 #echo "" >> salida.dat
-printf "" > salidaE.dat
+printf "" > dyv.dat
 
 i=50000
 while [ "$i" -le 1300000 ]
@@ -9,7 +9,7 @@ do
 	./generador $i
   	
 	# Ejecutamos los puntos
-	./especifico data.txt >> salidaE.dat
+	./dyv data.txt >> dyv.dat
 
 	echo "Terminado $i" 
 	
